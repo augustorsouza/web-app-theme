@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Andrea Franz"]
-  s.date = %q{2010-01-11}
+  s.date = %q{2010-03-08}
   s.description = %q{Web app theme generator for rails projects}
   s.email = %q{andrea@gravityblast.com}
   s.extra_rdoc_files = [
@@ -41,7 +41,9 @@ Gem::Specification.new do |s|
      "lib/web_app_theme.rb",
      "rails_generators/theme/USAGE",
      "rails_generators/theme/templates/view_layout_administration.html.erb",
+     "rails_generators/theme/templates/view_layout_administration.html.haml",
      "rails_generators/theme/templates/view_layout_sign.html.erb",
+     "rails_generators/theme/templates/view_layout_sign.html.haml",
      "rails_generators/theme/templates/web_app_theme_override.css",
      "rails_generators/theme/theme_generator.rb",
      "rails_generators/themed/USAGE",
@@ -56,6 +58,7 @@ Gem::Specification.new do |s|
      "rails_generators/themed/templates/view_text.html.erb",
      "rails_generators/themed/themed_generator.rb",
      "stylesheets/base.css",
+     "stylesheets/themes/amro/style.css",
      "stylesheets/themes/bec-green/style.css",
      "stylesheets/themes/bec/style.css",
      "stylesheets/themes/blue/style.css",
@@ -74,11 +77,11 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/pilu/web-app-theme}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.5}
+  s.rubygems_version = %q{1.3.6}
   s.summary = %q{Web app theme generator}
   s.test_files = [
-    "test/spec_helper.rb",
-     "test/themed_generator_spec.rb"
+    "test/themed_generator_spec.rb",
+     "test/spec_helper.rb"
   ]
 
   if s.respond_to? :specification_version then
