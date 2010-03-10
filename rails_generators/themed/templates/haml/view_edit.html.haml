@@ -1,0 +1,14 @@
+.block
+  .secondary-navigation
+    %ul.wat-cf
+      %li.first= link_to :view_all.t, <%= controller_routing_path %>_path
+      %li= link_to :new.t, new_<%= singular_controller_routing_path %>_path
+      %li.active= link_to :edit.t, edit_<%= singular_controller_routing_path %>_path
+  .content
+    %h2.title= :editing.t(:resource => :<%= resource_name %>.t[:one])
+    .inner
+      = render :partial => 'form'
+      
+-#
+  - content_for :sidebar do
+    = render :partial => 'sidebar'

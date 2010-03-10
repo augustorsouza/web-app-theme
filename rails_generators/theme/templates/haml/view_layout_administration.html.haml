@@ -1,0 +1,36 @@
+!!! Strict
+%html{ :lang => 'en', :xmlns => 'http://www.w3.org/1999/xhtml' }
+  %head
+    %meta{ :content => 'text/html; charset=utf-8', 'http-equiv' => 'Content-Type' }
+    %title <%= options[:app_name] %>
+    = stylesheet_link_tag 'web_app_theme', 'web_app_theme_override', 'themes/<%= options[:theme] %>/style', :cache => true
+  %body
+    #container
+      #header
+        %h1
+          = link_to '<%= options[:app_name] %>', '/'
+        #user-navigation
+          %ul.wat-cf
+            %li
+              = link_to :profile.t, '#'
+            %li
+              = link_to :settings.t, '#'
+            %li
+              = link_to :logout.t, '/logout', :class => 'logout'
+        #main-navigation
+          %ul.wat-cf
+      #wrapper.wat-cf
+        .flash
+          - flash.each do |type, message|
+            .message{ :class => "message #{type}"}
+              %p= message
+        #main
+          = yield
+          #footer
+            .block
+              %p
+                Copyright &copy;
+                = Time.now.year
+                Your Site.
+        #sidebar
+          = yield :sidebar

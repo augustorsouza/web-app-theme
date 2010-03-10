@@ -45,17 +45,25 @@ protected
   def manifest_for_crud(m)
     @columns = get_columns
     m.directory(File.join('app/views', @controller_file_path))                        
-    m.template('view_tables.html.#{view_language}',  File.join("app/views", @controller_file_path, "index.html.#{view_language}"))
-    m.template('view_new.html.#{view_language}',     File.join("app/views", @controller_file_path, "new.html.#{view_language}"))
-    m.template('view_edit.html.#{view_language}',    File.join("app/views", @controller_file_path, "edit.html.#{view_language}"))
-    m.template('view_form.html.#{view_language}',    File.join("app/views", @controller_file_path, "_form.html.#{view_language}"))
-    m.template('view_show.html.#{view_language}',    File.join("app/views", @controller_file_path, "show.html.#{view_language}"))
-    m.template('view_sidebar.html.#{view_language}', File.join("app/views", @controller_file_path, "_sidebar.html.#{view_language}"))
+    m.template("#{view_language}/view_tables.html.#{view_language}",  File.join("app/views", @controller_file_path, "index.html.#{view_language}"))
+    m.template("#{view_language}/view_new.html.#{view_language}",     File.join("app/views", @controller_file_path, "new.html.#{view_language}"))
+    m.template("#{view_language}/view_edit.html.#{view_language}",    File.join("app/views", @controller_file_path, "edit.html.#{view_language}"))
+    m.template("#{view_language}/view_form.html.#{view_language}",    File.join("app/views", @controller_file_path, "_form.html.#{view_language}"))
+    m.template("#{view_language}/view_show.html.#{view_language}",    File.join("app/views", @controller_file_path, "show.html.#{view_language}"))
+    m.template("#{view_language}/view_sidebar.html.#{view_language}", File.join("app/views", @controller_file_path, "_sidebar.html.#{view_language}"))
     
     if options[:layout]
-      m.gsub_file(File.join("app/views/layouts", "#{options[:layout]}.html.#{view_language}"), /\<div\s+id=\"main-navigation\">.*\<\/ul\>/mi) do |match|
-        match.gsub!(/\<\/ul\>/, "")
-        %|#{match} <li class="<%= controller.controller_path == '#{@controller_file_path}' ? 'active' : '' %>"><a href="<%= #{controller_routing_path}_path %>">#{plural_model_name}</a></li></ul>|
+      if view_language == 'erb'
+        m.gsub_file(File.join("app/views/layouts", "#{options[:layout]}.html.erb"), /\<div\s+id=\"main-navigation\">.*\<\/ul\>/mi) do |match|
+          match.gsub!(/\<\/ul\>/, "")
+          %|#{match} <li class="<%= controller.controller_path == "#{@controller_file_path}" ? 'active' : '' %>"><a href="<%= #{controller_routing_path}_path %>">#{plural_model_name}</a></li></ul>|
+        end
+      elsif view_language == 'haml'
+        m.gsub_file(File.join("app/views/layouts", "#{options[:layout]}.html.haml"), /#main\-navigation.*%ul.wat-cf.*#wrapper.wat-cf/mi) do |match|
+          spaces = match.scan(/\n.*#wrapper\.wat\-cf/).first.size - '#wrapper.wat-cf'.size - 3
+          match.gsub!(/#wrapper\.wat\-cf/, "")
+          %|#{match} #{' ' * spaces} %li{:class => controller.controller_path == "#{@controller_file_path}" ? 'active' : ''}= link_to '#{plural_model_name}', #{controller_routing_path}_path\n#{' ' * (spaces+2)}#wrapper.wat-cf|
+        end
       end
     end
   end
@@ -64,14 +72,14 @@ protected
     signup_controller_path  = @controller_file_path
     signin_controller_path  = @model_name.downcase # just here I use the second argument as a controller path
     @resource_name          = @controller_path.singularize
-    m.template('view_signup.html.#{view_language}',  File.join("app/views", signup_controller_path, "new.html.#{view_language}"))
-    m.template('view_signin.html.#{view_language}',  File.join("app/views", signin_controller_path, "new.html.#{view_language}"))
+    m.template("#{view_language}/view_signup.html.#{view_language}",  File.join("app/views", signup_controller_path, "new.html.#{view_language}"))
+    m.template("#{view_language}/view_signin.html.#{view_language}",  File.join("app/views", signin_controller_path, "new.html.#{view_language}"))
   end
   
   def manifest_for_text(m)
-    m.directory(File.join('app/views', @controller_file_path))    
-    m.template('view_text.html.#{view_language}', File.join("app/views", @controller_file_path, "show.html.#{view_language}"))
-    m.template('view_sidebar.html.#{view_language}', File.join("app/views", @controller_file_path, "_sidebar.html.#{view_language}"))
+    m.directory(File.join("app/views", @controller_file_path))    
+    m.template("#{view_language}/view_text.html.#{view_language}", File.join("app/views", @controller_file_path, "show.html.#{view_language}"))
+    m.template("#{view_language}/view_sidebar.html.#{view_language}", File.join("app/views", @controller_file_path, "_sidebar.html.#{view_language}"))
   end
   
   def get_columns

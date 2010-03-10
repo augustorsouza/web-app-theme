@@ -1,0 +1,35 @@
+.block
+  .secondary-navigation
+    %ul.wat-cf
+      %li.first.active
+        = link_to :view_all.t, <%= controller_routing_path %>_path
+      %li
+        = link_to :new.t, new_<%= singular_controller_routing_path %>_path
+  .content
+    %h2.title= :listing.t(:resources => :<%= resource_name %>.t[:other])
+    .inner
+      %table.table
+        %tr
+      <%- unless columns.empty? -%>
+        <%- columns.each do |column| -%>
+          %th= :<%= column.name %>.t(:<%= resource_name %>)
+        <%- end -%>  
+      <%- end -%>
+        - @<%= plural_resource_name %>.each do |<%= resource_name %>|
+          %tr{:class => cycle(:odd, :even)} 
+        <%- unless columns.empty? -%>
+          <%- columns.each do |column| -%>
+            %td=h <%= resource_name %>.<%= column.name %>
+          <%- end -%>
+        <%- end -%>          
+            %td.last
+            %td= link_to :show.t(:resource => :<%= resource_name %>.t[:one]), <%= singular_controller_routing_path %>_path(<%= resource_name %>)
+            %td= link_to :edit.t(:resource => :<%= resource_name %>.t[:one]), edit_<%= singular_controller_routing_path %>_path(<%= resource_name %>)
+            %td= link_to :destroy.t(:resource => :<%= resource_name %>.t[:one]), <%= singular_controller_routing_path %>_path(<%= resource_name %>), :method => :delete, :confirm => :are_you_sure?.t
+
+      .actions-bar.wat-cf
+        .actions
+        <%- if options[:will_paginate] -%>
+          = will_paginate @<%= plural_resource_name %>
+        <%- end -%>
+-#- content_for :sidebar, render(:partial => 'sidebar')

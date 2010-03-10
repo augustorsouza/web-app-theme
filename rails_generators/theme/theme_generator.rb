@@ -19,9 +19,9 @@ class ThemeGenerator < Rails::Generator::Base
         m.file("../../../images/icons/#{icon}.png", "public/images/web-app-theme/#{icon}.png")
       end            
       m.directory("public/stylesheets/themes/#{options[:theme]}/")
-      m.template("view_layout_#{options[:layout_type]}.html.#{view_language}", File.join("app/views/layouts", "#{@name}.html.#{view_language}")) unless options[:no_layout]
+      m.template("#{view_language}/view_layout_#{options[:layout_type]}.html.#{view_language}", File.join("app/views/layouts", "#{@name}.html.#{view_language}")) unless options[:no_layout]
       m.template("../../../stylesheets/base.css",  File.join("public/stylesheets", "web_app_theme.css"))
-      m.template("web_app_theme_override.css",  File.join("public/stylesheets", "web_app_theme_override.css"))
+      m.template("stylesheets/web_app_theme_override.css",  File.join("public/stylesheets", "web_app_theme_override.css"))
       m.template("../../../stylesheets/themes/#{options[:theme]}/style.css",  File.join("public/stylesheets/themes/#{options[:theme]}", "style.css"))      
     end
   end
